@@ -20,11 +20,6 @@ class LinearRegression:
 		ones = np.ones((len(x), 1))
 		return np.hstack((ones, x))
 
-	def predict_(self, x):
-		if not isinstance(x, (np.ndarray, np.generic)):
-			return None
-		return np.array(self.add_intercept(x) @ self.thetas)
-
 	def gradient(self, x, y, theta):
 		xp = self.add_intercept(x)
 		xpt = xp.T
@@ -35,24 +30,24 @@ class LinearRegression:
 			self.thetas = self.thetas - self.alpha * self.gradient(x, y, self.thetas)
 		return self.thetas
 
-	@staticmethod
+	def plot(self, old_x, x, y):
+		plt.scatter(old_x, y)
+		plt.plot(old_x, x * self.thetas[1] + self.thetas[0], 'r')
+		plt.show()
+
 	def standardization(x):
 		return (x - np.mean(x)) / np.std(x)
-
-	# @staticmethod
-	# def mse_(y, y_hat):
-	# 	return np.average((y_hat - y) ** 2)
 
 if __name__ == "__main__":
 	dataset = pd.read_csv("../assets/data.csv")
 	x = np.array(dataset['km']).reshape(-1, 1).astype(float)
 	y = np.array(dataset['price']).reshape(-1, 1).astype(float)
-	model = LinearRegression()
 	old_x = x
+	model = LinearRegression()
 	mean, std = np.mean(x), np.std(x)
-	x = LinearRegression.standardization(x)
+	x.standardization(x)
 	thetas = model.gradient_descent(x, y)
-	# plt.scatter(old_x, y)
-	# plt.plot(old_x, x * thetas[1] + thetas[0], 'r')
-	# plt.show()
-	print(f"{mean},{std},{int(thetas[1])},{int(thetas[0])}")
+	if len(sys.argv) == 1:
+		print(f"{mean},{std},{int(thetas[1])},{int(thetas[0])}")
+	elif (sys.argv[1] == 'plot'):
+		model.plot(old_x, x, y)

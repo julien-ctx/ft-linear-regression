@@ -15,11 +15,22 @@ class color:
    END = '\033[0m'
 
 if __name__ == "__main__":
-   mileage = int(input(color.BOLD + "Enter the mileage of the vehicle\n>> " + color.END))
-   coefs = os.popen("python3 linear_regression.py").read().split(",")
-   nb = float((mileage - float(coefs[0])) / float(coefs[1])) #Convert to standarized
-   nb = nb * float(coefs[2]) + float(coefs[3]) #Add coefs, transform to price
-   if nb < 0:
-      print(color.RED + "Mileage too high: impossible to predict a price." + color.END)
+   option = input(color.BOLD + "Available options:\n- Type 'plot' to display the linear regression model\n- Type the mileage to display the estimated price\n>> " + color.END)
+   if (option == "plot"):
+      os.popen("python3 linear_regression.py plot")
    else:
-      print(color.BOLD + "Estimated price: " + color.GREEN + str(round(nb, 2)) + "$" + color.END)
+      try:
+         option = int(option)
+      except Exception:
+         print(color.RED + "Error: invalid mileage." + color.END)
+         exit(1)
+      if option < 0:
+         print(color.RED + "Error: mileage must be a non null positive integer." + color.END)
+         exit(1)
+      coefs = os.popen("python3 linear_regression.py").read().split(",")
+      price = float((option - float(coefs[0])) / float(coefs[1])) #Convert to standarized
+      price = price * float(coefs[2]) + float(coefs[3]) #Add coefs, transform to price
+      if price < 0:
+         print(color.RED + "Mileage too high: impossible to predict a price." + color.END)
+      else:
+         print(color.BOLD + "Estimated price: " + color.GREEN + str(round(price, 2)) + "$" + color.END)
