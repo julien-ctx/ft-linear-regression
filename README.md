@@ -11,3 +11,5 @@ The purpose of this project is simple: we have to **predict the price of a vehic
 - Use final θ to predict the data on Y, with X provided by the user.
 
 In addition, we can plot the **linear regression** line on the coordinate system to visualize data and loss.
+
+<img src="https://raw.githubusercontent.com/julien-ctx/42_ft_linear_regression/master/assets/linear_regression.png">
