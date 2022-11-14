@@ -16,5 +16,5 @@ class color:
 
 if __name__ == "__main__":
 	mileage = int(input(color.BOLD + "Enter the mileage of the vehicle\n>> " + color.END))
-	thetas = os.popen("python3 linear_regression.py").read().split(",")
-	print(f"{color.BOLD}Estimated price: {color.CYAN}{mileage * float(thetas[1][2:-2]) + float(thetas[0][1:-1])}")
+	coefs = os.popen("python3 linear_regression.py").read().split(",")
+	print(f"{color.BOLD}Estimated price: {color.CYAN}{(mileage - float(coefs[0]) - float(coefs[1])) * float(coefs[2]) + float(coefs[3])}$")

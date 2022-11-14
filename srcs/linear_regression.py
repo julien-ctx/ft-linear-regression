@@ -5,7 +5,7 @@ import sys
 
 class LinearRegression:
 
-	def __init__(self, alpha = 0.001, max_i = 10000):
+	def __init__(self, alpha = 0.001, max_i = 100000):
 		self.thetas = np.array([[0.], [0.]]).astype(float)
 		self.alpha = alpha
 		self.max_i = max_i
@@ -39,9 +39,9 @@ class LinearRegression:
 	def standardization(x):
 		return (x - np.mean(x)) / np.std(x)
 
-	@staticmethod
-	def mse_(y, y_hat):
-		return np.average((y_hat - y) ** 2)
+	# @staticmethod
+	# def mse_(y, y_hat):
+	# 	return np.average((y_hat - y) ** 2)
 
 if __name__ == "__main__":
 	dataset = pd.read_csv("../assets/data.csv")
@@ -49,9 +49,12 @@ if __name__ == "__main__":
 	y = np.array(dataset['price']).reshape(-1, 1).astype(float)
 	model = LinearRegression()
 	old_x = x
+	mean, std = np.mean(x), np.std(x)
 	x = LinearRegression.standardization(x)
 	thetas = model.gradient_descent(x, y)
-	print(f"{thetas[1]}, {thetas[0]}")
-	# plt.scatter(old_x, y)
-	# plt.plot(old_x, x * thetas[1] + thetas[0], 'r')
-	# plt.show()
+	plt.scatter(old_x, y)
+	plt.plot(old_x, x * thetas[1] + thetas[0], 'r')
+	nb = int(sys.argv[1])
+	nb = (nb - mean) / std
+	print(nb * thetas[1] + thetas[0])
+	plt.show()
