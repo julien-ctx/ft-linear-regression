@@ -15,6 +15,11 @@ class color:
    END = '\033[0m'
 
 if __name__ == "__main__":
-	mileage = int(input(color.BOLD + "Enter the mileage of the vehicle\n>> " + color.END))
-	coefs = os.popen("python3 linear_regression.py").read().split(",")
-	print(f"{color.BOLD}Estimated price: {color.CYAN}{(mileage - float(coefs[0]) - float(coefs[1])) * float(coefs[2]) + float(coefs[3])}$")
+   mileage = int(input(color.BOLD + "Enter the mileage of the vehicle\n>> " + color.END))
+   coefs = os.popen("python3 linear_regression.py").read().split(",")
+   nb = float((mileage - float(coefs[0])) / float(coefs[1])) #Convert to standarized
+   nb = nb * float(coefs[2]) + float(coefs[3]) #Add coefs, transform to price
+   if nb < 0:
+      print(color.RED + "Mileage too high: impossible to predict a price." + color.END)
+   else:
+      print(color.BOLD + "Estimated price: " + color.GREEN + str(round(nb, 2)) + "$" + color.END)

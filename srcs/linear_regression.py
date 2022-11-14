@@ -52,9 +52,7 @@ if __name__ == "__main__":
 	mean, std = np.mean(x), np.std(x)
 	x = LinearRegression.standardization(x)
 	thetas = model.gradient_descent(x, y)
-	plt.scatter(old_x, y)
-	plt.plot(old_x, x * thetas[1] + thetas[0], 'r')
-	nb = int(sys.argv[1])
-	nb = (nb - mean) / std
-	print(nb * thetas[1] + thetas[0])
-	plt.show()
+	# plt.scatter(old_x, y)
+	# plt.plot(old_x, x * thetas[1] + thetas[0], 'r')
+	# plt.show()
+	print(f"{mean},{std},{int(thetas[1])},{int(thetas[0])}")
