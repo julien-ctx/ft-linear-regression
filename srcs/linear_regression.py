@@ -5,7 +5,7 @@ import sys
 
 class LinearRegression:
 
-	def __init__(self, alpha = 0.01, max_i = 100000):
+	def __init__(self, alpha = 0.001, max_i = 10000):
 		self.thetas = np.array([[0.], [0.]]).astype(float)
 		self.alpha = alpha
 		self.max_i = max_i
@@ -28,15 +28,16 @@ class LinearRegression:
 	def gradient(self, x, y, theta):
 		xp = self.add_intercept(x)
 		xpt = xp.T
-		# print(xpt)
-		# print()
-		# print(xp @ theta - y)
 		return np.array((xpt @ (xp @ theta - y)) / y.size)
 	
 	def gradient_descent(self, x, y):
 		for _ in range(self.max_i):
 			self.thetas = self.thetas - self.alpha * self.gradient(x, y, self.thetas)
 		return self.thetas
+
+	@staticmethod
+	def standardization(x):
+		return (x - np.mean(x)) / np.std(x)
 
 	@staticmethod
 	def mse_(y, y_hat):
@@ -47,5 +48,10 @@ if __name__ == "__main__":
 	x = np.array(dataset['km']).reshape(-1, 1).astype(float)
 	y = np.array(dataset['price']).reshape(-1, 1).astype(float)
 	model = LinearRegression()
+	old_x = x
+	x = LinearRegression.standardization(x)
 	thetas = model.gradient_descent(x, y)
-	print(thetas)
+	print(f"{thetas[1]}, {thetas[0]}")
+	# plt.scatter(old_x, y)
+	# plt.plot(old_x, x * thetas[1] + thetas[0], 'r')
+	# plt.show()
