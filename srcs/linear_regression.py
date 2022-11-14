@@ -33,6 +33,8 @@ class LinearRegression:
 	def plot(self, old_x, x, y):
 		plt.scatter(old_x, y)
 		plt.plot(old_x, x * self.thetas[1] + self.thetas[0], 'r')
+		plt.xlabel("Mileage (km)")
+		plt.ylabel("Price ($)")
 		plt.show()
 
 	@staticmethod
