@@ -35,6 +35,7 @@ class LinearRegression:
 		plt.plot(old_x, x * self.thetas[1] + self.thetas[0], 'r')
 		plt.show()
 
+	@staticmethod
 	def standardization(x):
 		return (x - np.mean(x)) / np.std(x)
 
@@ -45,7 +46,7 @@ if __name__ == "__main__":
 	old_x = x
 	model = LinearRegression()
 	mean, std = np.mean(x), np.std(x)
-	x.standardization(x)
+	x = LinearRegression.standardization(x)
 	thetas = model.gradient_descent(x, y)
 	if len(sys.argv) == 1:
 		print(f"{mean},{std},{int(thetas[1])},{int(thetas[0])}")
