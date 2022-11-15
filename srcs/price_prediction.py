@@ -1,18 +1,6 @@
-from linear_regression import LinearRegression
+from linear_regression import LinearRegression, color
 import numpy as np
 import os
-
-class color:
-   PURPLE = '\033[95m'
-   CYAN = '\033[96;1m'
-   DARKCYAN = '\033[36m'
-   BLUE = '\033[94;1m'
-   GREEN = '\033[92;1m'
-   YELLOW = '\033[93;1m'
-   RED = '\033[91;1m'
-   BOLD = '\033[1m'
-   UNDERLINE = '\033[4m'
-   END = '\033[0m'
 
 if __name__ == "__main__":
    option = input(color.BOLD + "Available options:\n- Type 'plot' to display the linear regression model\n- Type the mileage to display the estimated price\n>> " + color.END)
