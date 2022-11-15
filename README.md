@@ -10,6 +10,10 @@ The purpose of this project is simple: we have to **predict the price of a vehic
 - Perform **gradient descent algorithm** with θ values initialized at 0.
 - Use final θ to predict the data on Y, with X provided by the user.
 
-In addition, we can plot the **linear regression** line on the coordinate system to visualize data and loss.
+In addition, we can plot the **linear regression** line on the coordinate system to visualize data trend.
 
 <img src="https://raw.githubusercontent.com/julien-ctx/42_ft_linear_regression/master/assets/linear_regression.png">
+
+A **loss curve** can also be generated with every θ tested when performing the gradient descent algorithm.
+
+<img src="https://raw.githubusercontent.com/julien-ctx/42_ft_linear_regression/master/assets/loss.png">
