@@ -2,6 +2,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
 import sys
+from sklearn.metrics import mean_absolute_percentage_error
 
 class color:
    PURPLE = '\033[95m'
@@ -69,6 +70,10 @@ class LinearRegression:
 	def mse(self, y, y_hat):
 		return np.average((y_hat - y) ** 2)
 
+	def accuracy(self, y, old_x):
+		y_hat = ((old_x - self.mean) / self.std) * self.thetas[1] + self.thetas[0]
+		return 100.0 - np.mean(abs((y - y_hat) / y)) * 100
+
 	@staticmethod
 	def standardize(x):
 		return (x - np.mean(x)) / np.std(x)
@@ -82,6 +87,6 @@ if __name__ == "__main__":
 	x = LinearRegression.standardize(x)
 	thetas = model.gradient_descent(x, y, old_x)
 	if len(sys.argv) == 1:
-		print(f"{model.mean},{model.std},{int(thetas[1])},{int(thetas[0])}")
+		print(f"{model.mean},{model.std},{int(thetas[1])},{int(thetas[0])},{model.accuracy(y, old_x)}")
 	elif (sys.argv[1] == 'plot'):
 		model.plot(old_x, x, y)

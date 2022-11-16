@@ -16,9 +16,10 @@ if __name__ == "__main__":
          print(color.RED + "Error: mileage must be a non null positive integer." + color.END)
          exit(1)
       coefs = os.popen("python3 linear_regression.py").read().split(",")
-      price = float((option - float(coefs[0])) / float(coefs[1])) #Convert to standarized
-      price = price * float(coefs[2]) + float(coefs[3]) #Add coefs, transform to price
+      price = float((option - float(coefs[0])) / float(coefs[1]))
+      price = price * float(coefs[2]) + float(coefs[3])
       if price < 0:
          print(color.RED + "Mileage too high: impossible to predict a price." + color.END)
       else:
-         print(color.BOLD + "Estimated price: " + color.GREEN + str(round(price, 2)) + "$" + color.END)
+         print(color.BOLD + "Estimated price: " + color.CYAN + str(round(price, 2)) + "$" + color.END)
+         print(color.BOLD + "Accuracy: " + color.CYAN + str(round(float(coefs[4]), 2)) + "%")
