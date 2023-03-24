@@ -1,4 +1,4 @@
-# 42_ft_linear_regression
+# Linear Regression | 42
 
  📈 An implementation of a simple linear regression with a single feature.
 
