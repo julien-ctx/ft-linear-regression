@@ -1,8 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
-import sys
-from sklearn.metrics import mean_absolute_percentage_error
+import sys, os
 
 class color:
    PURPLE = '\033[95m'
@@ -53,7 +52,8 @@ class LinearRegression:
 		for i in range(self.max_i):
 			self.loss_x.append(i)
 			self.loss_y.append(self.mse(y, (((old_x - self.mean) / self.std) * self.thetas[1] + self.thetas[0])))
-			self.thetas = self.thetas - self.alpha * self.gradient(x, y, self.thetas)
+			new_thetas = self.thetas - self.alpha * self.gradient(x, y, self.thetas)
+			self.thetas = new_thetas
 		return self.thetas
 
 	def plot(self, old_x, x, y):
@@ -83,6 +83,8 @@ class LinearRegression:
 	
 if __name__ == "__main__":
 	# Preparing data. Reshape columns to fit the format required by machine learning algorithms.
+	if not os.path.exists('../assets/data.csv'):
+		sys.exit(color.RED + "Error: incorrect CSV file!" + color.END)
 	dataset = pd.read_csv("../assets/data.csv")
 	x = np.array(dataset['km']).reshape(-1, 1).astype(float)
 	y = np.array(dataset['price']).reshape(-1, 1).astype(float)
@@ -97,6 +99,7 @@ if __name__ == "__main__":
 	# Gradient descent algorithm
 	thetas = model.gradient_descent(x, y, old_x)
 	if len(sys.argv) == 1:
-		print(f"{model.mean},{model.std},{int(thetas[1])},{int(thetas[0])},{model.accuracy(y, old_x)}")
+		with open('training_results.txt', 'w') as f:
+			f.write(f"{model.mean},{model.std},{int(thetas[1])},{int(thetas[0])},{model.accuracy(y, old_x)}")
 	elif (sys.argv[1] == 'plot'):
 		model.plot(old_x, x, y)
