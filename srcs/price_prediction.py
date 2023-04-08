@@ -4,7 +4,7 @@ import os
 
 if __name__ == "__main__":
    option = input(color.BOLD + "Available options:\n- Type 'plot' to display the linear regression model\n- Type the mileage to display the estimated price\n>> " + color.END)
-   if (option == "plot"):
+   if option == "plot":
       os.popen("python3 linear_regression.py plot")
    else:
       try:

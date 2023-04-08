@@ -17,13 +17,12 @@ class color:
    END = '\033[0m'
 
 class LinearRegression:
-
 	def __init__(self, mean = None, std = None, alpha = 0.001, max_i = 10000):
 		self.thetas = np.array([[0.], [0.]])
 		self.alpha = alpha
 		self.max_i = max_i
 		if not mean or not std:
-			sys.exit(color.RED + "Error: no mean/std provided in model's instance" + color.END)
+			sys.exit(color.RED + "Error: no mean/std provided on model's instance" + color.END)
 		self.mean = mean
 		self.std = std
 		self.loss_x = []
@@ -66,9 +65,9 @@ class LinearRegression:
 		plt.show()
 
 	def mse(self, y, y_hat):
-		return np.average((y_hat - y) ** 2)
+		return np.mean((y_hat - y) ** 2)
 
-	def mpe(self, y, old_x):
+	def accuracy(self, y, old_x):
 		y_hat = ((old_x - self.mean) / self.std) * self.thetas[1] + self.thetas[0]
 		return 100.0 - np.mean(abs((y - y_hat) / y)) * 100
 
@@ -92,6 +91,6 @@ if __name__ == "__main__":
 	# Gradient descent algorithm
 	thetas = model.gradient_descent(x, y, old_x)
 	if len(sys.argv) == 1:
-		print(f"{model.mean},{model.std},{int(thetas[1])},{int(thetas[0])},{model.mpe(y, old_x)}")
+		print(f"{model.mean},{model.std},{int(thetas[1])},{int(thetas[0])},{model.accuracy(y, old_x)}")
 	elif (sys.argv[1] == 'plot'):
 		model.plot(old_x, x, y)
