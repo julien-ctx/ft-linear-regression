@@ -23,9 +23,9 @@ class LinearRegression:
 		self.alpha = alpha
 		self.max_i = max_i
 		if not mean or not std:
-			sys.exit(color.RED + "Error: no mean/std provided on model's instance" + color.END)
-		self.mean = np.mean(x)
-		self.std = np.std(x)
+			sys.exit(color.RED + "Error: no mean/std provided in model's instance" + color.END)
+		self.mean = mean
+		self.std = std
 		self.loss_x = []
 		self.loss_y = []
 	
@@ -39,15 +39,13 @@ class LinearRegression:
 		ones = np.ones((len(x), 1))
 		return np.hstack((ones, x))
 
-	def gradient(self, x, y, theta):
+	def gradient(self, x, y, thetas):
 		xp = self.add_intercept(x)
 		xpt = xp.T
-		return np.array((xpt @ (xp @ theta - y)) / y.size)
+		return np.array((xpt @ (xp @ thetas - y)) / y.size)
 	
 	def gradient_descent(self, x, y, old_x):
-		i = 0
-		for _ in range(self.max_i):
-			i += 1
+		for i in range(self.max_i):
 			self.loss_x.append(i)
 			self.loss_y.append(self.mse(y, (((old_x - self.mean) / self.std) * self.thetas[1] + self.thetas[0])))
 			self.thetas = self.thetas - self.alpha * self.gradient(x, y, self.thetas)
@@ -70,7 +68,7 @@ class LinearRegression:
 	def mse(self, y, y_hat):
 		return np.average((y_hat - y) ** 2)
 
-	def accuracy(self, y, old_x):
+	def mpe(self, y, old_x):
 		y_hat = ((old_x - self.mean) / self.std) * self.thetas[1] + self.thetas[0]
 		return 100.0 - np.mean(abs((y - y_hat) / y)) * 100
 
@@ -79,14 +77,21 @@ class LinearRegression:
 		return (x - np.mean(x)) / np.std(x)
 	
 if __name__ == "__main__":
+	# Preparing data. Reshape columns to fit the format required by machine learning algorithms.
 	dataset = pd.read_csv("../assets/data.csv")
 	x = np.array(dataset['km']).reshape(-1, 1).astype(float)
 	y = np.array(dataset['price']).reshape(-1, 1).astype(float)
+
 	model = LinearRegression(np.mean(x), np.std(x))
+
+	# Standardize data before performing gradient descent algorithm to put them on the same scale.
+	# This is important because otherwise we can have underflow or overflow.
 	old_x = x
 	x = LinearRegression.standardize(x)
+
+	# Gradient descent algorithm
 	thetas = model.gradient_descent(x, y, old_x)
 	if len(sys.argv) == 1:
-		print(f"{model.mean},{model.std},{int(thetas[1])},{int(thetas[0])},{model.accuracy(y, old_x)}")
+		print(f"{model.mean},{model.std},{int(thetas[1])},{int(thetas[0])},{model.mpe(y, old_x)}")
 	elif (sys.argv[1] == 'plot'):
 		model.plot(old_x, x, y)
