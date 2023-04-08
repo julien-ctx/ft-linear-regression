@@ -28,6 +28,7 @@ class LinearRegression:
 		self.loss_x = []
 		self.loss_y = []
 	
+	# Adds a column of 1 to the left of the array to perform calculation.
 	def add_intercept(self, x):
 		if not isinstance(x, (np.ndarray, np.generic)):
 			return None
@@ -38,11 +39,16 @@ class LinearRegression:
 		ones = np.ones((len(x), 1))
 		return np.hstack((ones, x))
 
+	# Gradient function returns the derivative of the MSE.
+	# It allows us to know the direction we should go depending of the sign of the value.
+	# Transpose allows us to do matrix multiplication with thetas
 	def gradient(self, x, y, thetas):
 		xp = self.add_intercept(x)
 		xpt = xp.T
 		return np.array((xpt @ (xp @ thetas - y)) / y.size)
 	
+	# Finds the correct thetas by increasing or decreasing them depending on the side of the curve.
+	# < 0 for left and > 0 for right
 	def gradient_descent(self, x, y, old_x):
 		for i in range(self.max_i):
 			self.loss_x.append(i)
