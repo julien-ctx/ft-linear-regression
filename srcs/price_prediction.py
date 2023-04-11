@@ -3,7 +3,30 @@ import numpy as np
 import sys
 
 if __name__ == "__main__":
-   option = input(color.BOLD + "Type the mileage to display the estimated price\n>> " + color.END)
+   try:
+      option = input(color.BOLD + 
+r"""
+                  _________________
+            _.-'_____  _________ _`.
+            .` ,'      ||         | `.`.
+         .` ,'        ||         |   `.`.
+      .`  /          ||         |  ,' ] `....___
+      _`__.'''''''''''''''''''''''`''''''''|..___ `-.._
+   .'                  [='                '     `'-.._`.
+,:/.'''''''''''''''''''|''''''''''''''''''|'''''''''''\'\
+//||    _..._         |                  '    _..._  |)|
+/|//   ,',---.`.       |                  |  .',---.`.\>|
+(':/   //' .-. `\\      \_________________/  '/' .-. `\\|_)
+`-...'||  '-'  ||________,,,,,,,,,,,,,,,__.'||  '-'  ||-'
+      '.'.___.','                           '.'.___.','
+         '-.-.-'                               '-.-.-'
+
+Enter the mileage to display the estimated price
+>> """ + color.END)
+   except Exception:
+      sys.exit('\r' + color.RED + "Error: keyboard interrupted input function." + color.END)
+   except EOFError:
+      sys.exit('\r' + color.RED + "Error: keyboard interrupted input function." + color.END)
    try:
       option = int(option)
    except Exception:
